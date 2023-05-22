@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('./cors');
 
 const Truck = require("../models/truck");
 const truckRouter = express.Router();
