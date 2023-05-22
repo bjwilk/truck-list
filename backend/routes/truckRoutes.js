@@ -49,7 +49,7 @@ truckRouter
   })
   .put((req, res) => {
     res.statusCode = 403;
-    res.end("PUT operation not supported on /campsites");
+    res.end("PUT operation not supported on /trucks");
   })
   .delete((req, res, next) => {
     Truck.deleteMany()
