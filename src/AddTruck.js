@@ -76,7 +76,7 @@ const AddTruck = () => {
   
 
   const handleAddTruck = async () => {
-    const newTruck = { cost, make, model, body, description, image };
+    const newTruck = { cost, make, model, body: body.toLowerCase(), description, image };
     const response = await fetch('http://localhost:3001/truck', {
       method: 'POST',
       headers: {
@@ -94,10 +94,11 @@ const AddTruck = () => {
       setBody('')
       setDescription('');
       setImage('');
+    } else {
+      // Handle error response
+      throw new Error('Failed to add truck');
     }
-
-  
-  };
+ };
 
 
   

@@ -51,8 +51,10 @@ export default function TruckList() {
     model: '',
     startYear: '',
     endYear: '',
-    type: '',
+    body: '',
   });
+
+  const [searchResults, setSesarchResults] = useState([])
 
   const [searchClicked, setSearchClicked] = useState(false);
 
@@ -60,33 +62,37 @@ export default function TruckList() {
     setSearchValues(prevValues => ({...prevValues, [e.target.name]: e.target.value}));
   }
 
-  const handleSearchClick = () => {
+  const handleSearchClick = async () => {
+   const results = fetch(`http://localhost:3001/truck/search?make=${searchValues.make}&model=${searchValues.model}&body=${searchValues.body}`)
+   let trucks = await (await results).json()
+   setSesarchResults(trucks)
+   console.log("results: ", trucks)
     setSearchClicked(true);
   }
 
-  const filteredTrucksList = (trucksList) => {
-    if (searchClicked) {
-      return trucksList.filter(item => {
-        if (searchValues.make && !item.make.toLowerCase().includes(searchValues.make.toLowerCase())) {
-          return false;
-        }
-        if (searchValues.model && !item.model.toLowerCase().includes(searchValues.model.toLowerCase())) {
-          return false;
-        }
-        if (searchValues.type && !item.type.toLowerCase().includes(searchValues.type.toLowerCase())) {
-          return false;
-        }
-        if (searchValues.startYear && parseInt(item.year) < parseInt(searchValues.startYear)) {
-          return false;
-        }
-        if (searchValues.endYear && parseInt(item.year) > parseInt(searchValues.endYear)) {
-          return false;
-        }
-        return true;
-      });
-    }
-    return trucksList;
-  }
+  // const filteredTrucksList = (trucksList) => {
+  //   if (searchClicked) {
+  //     return trucksList.filter(item => {
+  //       if (searchValues.make && !item.make.toLowerCase().includes(searchValues.make.toLowerCase())) {
+  //         return false;
+  //       }
+  //       if (searchValues.model && !item.model.toLowerCase().includes(searchValues.model.toLowerCase())) {
+  //         return false;
+  //       }
+  //       if (searchValues.body && !item.body.toLowerCase().includes(searchValues.body.toLowerCase())) {
+  //         return false;
+  //       }
+  //       if (searchValues.startYear && parseInt(item.year) < parseInt(searchValues.startYear)) {
+  //         return false;
+  //       }
+  //       if (searchValues.endYear && parseInt(item.year) > parseInt(searchValues.endYear)) {
+  //         return false;
+  //       }
+  //       return true;
+  //     });
+  //   }
+  //   return trucksList;
+  // }
 
   return (
     <>
@@ -95,14 +101,20 @@ export default function TruckList() {
         <h4>Make<input type='text' name='make' value={searchValues.make} onChange={handleInputChange}/></h4>
         <h4>Model<input type='text' name='model' value={searchValues.model} onChange={handleInputChange}/></h4>
         <h4>Year Range<input type='number' name='startYear' value={searchValues.startYear} onChange={handleInputChange}/> - <input type='number' name='endYear' value={searchValues.endYear} onChange={handleInputChange}/></h4>
-        <h4>Type<input type='text' name='type' value={searchValues.type} onChange={handleInputChange}/></h4>
+        <h4>Body<input type='text' name='body' value={searchValues.body} onChange={handleInputChange}/></h4>
         <button onClick={handleSearchClick}>Search</button>
       </div>
       <div>
-        {filteredTrucksList(trucksList).map((item, index) => (
+        {/* {filteredTrucksList(trucksList).map((item, index) => (
           <div key={index}>
-            <p>{item.make} {item.model} {item.year} {item.type}</p>
+            <p>{item.make} {item.model} {item.year} {item.body}</p>
           </div>
+        ))} */}
+        {searchResults.length > 0 && 
+        searchResults.map((item, index) => (
+        <div key={item._id}>
+          <p>{item.make} {item.model} {item.year} {item.body}</p>
+        </div>
         ))}
       </div>
     </>

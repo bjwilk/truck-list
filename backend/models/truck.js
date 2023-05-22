@@ -27,6 +27,11 @@ const truckSchema = new Schema(
     description: {
       type: String,
     },
+    year: {
+      type: Number,
+      required: true,
+      min: 1900
+    }
   },
   {
     timestamps: true,
