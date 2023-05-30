@@ -1,5 +1,13 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 // useNavigate - react-router-dom
+
+const LogBox = styled.div`
+display: flex;
+border: solid black;
+padding: 20px;
+margin: 20px;
+`
 
 function Login() {
   const [userName, setUserName] = useState('');
@@ -36,14 +44,22 @@ const handleChange = (e) => {
 
   return (
     <div>
+      <LogBox>
         <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+
+      <form style={{
+                    display: 'flex',
+                    border: 'solid black',
+                    padding: '10px',
+                    margin: '10px'
+    }} onSubmit={handleSubmit}>
         <input type='text' value={userName} name="user" placeholder="username" onChange={handleChange}/>
         <br/>
-        <input type="password" value={password} name="password"  onChange={handleChange}/>
+        <input type="password" value={password} name="password" placeholder="password"  onChange={handleChange}/>
         <br/>
         <button type="submit">Submit</button>
       </form>
+      </LogBox>
     </div>
   );
 }
