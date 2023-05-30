@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -31,6 +32,10 @@ const truckSchema = new Schema(
       type: Number,
       required: true,
       min: 1900
+    },
+    userId: {
+      type: ObjectId,
+      required: true
     }
   },
   {

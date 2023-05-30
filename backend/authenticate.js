@@ -4,6 +4,7 @@ const User = require('./models/user');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+require('dotenv').config()
 
 const config = require('./config.js');
 
@@ -47,4 +48,22 @@ exports.verifyAdmin = (req, res, next) => {
         err.status = 403;
         return next(err);
     }
+};
+
+exports.authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.sendStatus(401); // Unauthorized
+    }
+
+    jwt.verify(token, process.env.JSON_SECRET, (err, user) => {
+        if (err) {
+            return res.sendStatus(403); // Forbidden
+        }
+
+        req.user = user; // Store the user information from the token
+        next();
+    });
 };

@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require('./cors');
+const authenticate = require('../authenticate');
 
 const Truck = require("../models/truck");
 const truckRouter = express.Router();
@@ -37,7 +38,8 @@ truckRouter
       })
       .catch((err) => next(err));
   })
-  .post((req, res, next) => {
+  .post(authenticate.authenticateToken, (req, res, next) => {
+    req.body.userId = req.user.id;
     Truck.create(req.body)
       .then((truck) => {
         console.log("Truck Created ", truck);
