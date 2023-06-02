@@ -21,13 +21,12 @@ router.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.veri
 });
 
 router.post('/signup', cors.corsWithOptions, (req, res) => {
-    const {firstname, lastname, username, password} = req.body;
+    const {email, username, password} = req.body;
     bcrypt.hash(password, 10).then(function(hash) {
         // Store hash in your password DB.
         if(hash) {
             User.create( {
-                firstname,
-                lastname,
+                email,
                 username,
                 password: hash
             })

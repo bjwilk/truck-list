@@ -1,29 +1,29 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import SignUp from "./SignUp";
-import { Link } from "react-router-dom";
-
 // useNavigate - react-router-dom
 
 const LogBox = styled.div`
-  display: flex;
+  display: grid;
+  justify-content: space-evenly;
   border: solid black;
   padding: 20px;
   margin: 20px;
 `;
 
-function Login() {
+function SignUp() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(userName, password);
+    console.log(email, userName, password);
     const newUser = {
+        email: email,
       username: userName,
       password: password,
     };
-    const response = await fetch("http://localhost:3001/users/login", {
+    const response = await fetch("http://localhost:3001/users/SignUp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +37,9 @@ function Login() {
   };
 
   const handleChange = (e) => {
-    if (e.target.name === "user") {
+    if (e.target.name === "email") {
+      setEmail(e.target.value);
+    } else if (e.target.name === "user") {
       setUserName(e.target.value);
     } else {
       setPassword(e.target.value);
@@ -47,17 +49,26 @@ function Login() {
   return (
     <div>
       <LogBox>
-        <h1>Login</h1>
+        <h1>Sign Up</h1>
 
         <form
           style={{
-            display: "flex",
+            display: "grid",
             border: "solid black",
             padding: "10px",
             margin: "10px",
           }}
           onSubmit={handleSubmit}
         >
+          <input
+            type="text"
+            value={email}
+            name="email"
+            placeholder="email"
+            onChange={handleChange}
+          />
+          <br />
+
           <input
             type="text"
             value={userName}
@@ -77,10 +88,8 @@ function Login() {
           <button type="submit">Submit</button>
         </form>
       </LogBox>
-      <Link to="/signup">Sign Up</Link>
-    
     </div>
   );
 }
 
-export default Login;
+export default SignUp;

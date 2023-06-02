@@ -1,49 +1,49 @@
 import React, { useState } from "react";
 
-const trucksList = [
-  {
-    make: 'International',
-    model: 'MV',
-    year: '2015',
-    type: 'dump',
-  },
-  {
-    make: 'Kenworth',
-    model: 'T680',
-    year: '2017',
-    type: 'sleeper',
-  },
-  {
-    make: 'Kenworth',
-    model: 'T680',
-    year: '2018',
-    type: 'dump',
-  },
-  {
-    make: 'International',
-    model: 'MV',
-    year: '2020',
-    type: 'box van',
-  },
-  {
-    make: 'Peterbilt',
-    model: '330',
-    year: '2019',
-    type: 'Flatbed',
-  },
-  {
-    make: 'Peterbilt',
-    model: '330',
-    year: '2012',
-    type: 'Water Truck',
-  },
-  {
-    make: 'Peterbilt',
-    model: '330',
-    year: '2014',
-    type: 'Day Cab',
-  },
-];
+// const trucksList = [
+//   {
+//     make: 'International',
+//     model: 'MV',
+//     year: '2015',
+//     type: 'dump',
+//   },
+//   {
+//     make: 'Kenworth',
+//     model: 'T680',
+//     year: '2017',
+//     type: 'sleeper',
+//   },
+//   {
+//     make: 'Kenworth',
+//     model: 'T680',
+//     year: '2018',
+//     type: 'dump',
+//   },
+//   {
+//     make: 'International',
+//     model: 'MV',
+//     year: '2020',
+//     type: 'box van',
+//   },
+//   {
+//     make: 'Peterbilt',
+//     model: '330',
+//     year: '2019',
+//     type: 'Flatbed',
+//   },
+//   {
+//     make: 'Peterbilt',
+//     model: '330',
+//     year: '2012',
+//     type: 'Water Truck',
+//   },
+//   {
+//     make: 'Peterbilt',
+//     model: '330',
+//     year: '2014',
+//     type: 'Day Cab',
+//   },
+// ];
 
 export default function TruckList() {
   const [searchValues, setSearchValues] = useState({

@@ -4,7 +4,7 @@ import AddTruck from './AddTruck';
 import Contact from './Contact';
 import TruckList from './TruckList'
 import styled from 'styled-components'
-import SignUp from "./Login";
+import SignUp from "./SignUp";
 import Login from "./Login";
 
 
@@ -46,6 +46,8 @@ function App() {
         <Route path='/Contact' element={<Contact />} />
         <Route path='/TruckList' element={<TruckList />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/SignUp' element={<SignUp />} />
+
 
 
       </Routes>
