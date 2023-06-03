@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+// import { useHistory } from 'react-router';
 // useNavigate - react-router-dom
 
 const LogBox = styled.div`
@@ -19,7 +20,7 @@ function SignUp() {
     event.preventDefault();
     console.log(email, userName, password);
     const newUser = {
-        email: email,
+      email: email,
       username: userName,
       password: password,
     };
@@ -34,7 +35,16 @@ function SignUp() {
     const result = await response.json();
     console.log(result);
     localStorage.setItem("jsonwebtoken", result.jwt);
+  
+    // Show success message if signup was successful
+    if (response.ok) {
+      alert("Signup success! Please login to continue"); // Display the alert message
+    }
   };
+  
+  
+ 
+  
 
   const handleChange = (e) => {
     if (e.target.name === "email") {
