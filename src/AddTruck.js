@@ -169,13 +169,17 @@ const AddTruck = () => {
         </div>
         <div>
           <P>Image</P>
-          {/* <input
-            type="text"
+          <input
+            type="file"
             value={image}
-            onChange={(e) => setImage(e.target.value)}
+            onChange={(e) => {
+              console.log(e.target.files[0])
+            //  setImage(e.target.files[0])
+            }
+            }
             placeholder="Enter Image URL"
-          /> */}
-          <select
+          />
+          {/* <select
             onChange={(e) => setImage(e.target.value)}
             value={image}
             name="trucks"
@@ -184,7 +188,7 @@ const AddTruck = () => {
             <option value="">Please Choose</option>
             <option value="kenworth.jpg">Kenworth</option>
             <option value="scania.jpg">Scania</option>
-          </select>
+          </select> */}
         </div>
       </InputWrapper>
       <Button onClick={handleAddTruck}>Add Truck</Button>
