@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require('./cors');
 const authenticate = require('../authenticate');
+const cloudinary = require('cloudinary').v2;
 
 const Truck = require("../models/truck");
 const truckRouter = express.Router();
@@ -40,6 +41,7 @@ truckRouter
   })
   .post(authenticate.authenticateToken, (req, res, next) => {
     req.body.userId = req.user.id;
+    console.log(req.body)
     Truck.create(req.body)
       .then((truck) => {
         console.log("Truck Created ", truck);

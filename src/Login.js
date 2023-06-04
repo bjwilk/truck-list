@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import SignUp from "./SignUp";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // useNavigate - react-router-dom
 
@@ -15,6 +15,7 @@ const LogBox = styled.div`
 function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,7 +34,10 @@ function Login() {
     });
     const result = await response.json();
     console.log(result);
-    localStorage.setItem("jsonwebtoken", result.jwt);
+    if(result){
+      localStorage.setItem("jsonwebtoken", result.jwt);
+      navigate('/')
+    }
   };
 
   const handleChange = (e) => {
