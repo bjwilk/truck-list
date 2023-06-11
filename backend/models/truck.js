@@ -36,6 +36,10 @@ const truckSchema = new Schema(
     userId: {
       type: ObjectId,
       required: true
+    },
+    url: {
+      type: String,
+      required: true
     }
   },
   {

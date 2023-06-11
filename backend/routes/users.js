@@ -6,6 +6,8 @@ const cors = require('./cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
+const {sendMail} = require('../utils/mailer')
+
 
 const router = express.Router();
 
@@ -31,6 +33,11 @@ router.post('/signup', cors.corsWithOptions, (req, res) => {
                 password: hash
             })
             .then( (response) => {
+                sendMail(email, 'verify email', 'please confirm in email', `
+                <h3>UserName: ${username}</h3>
+                <p>Confirm Email with link</p>
+                <a href='http://192.168.4.23:3000'>Click Here</a>
+                ` )
                 res.json({user: 'user saved'})
             })
         } else {

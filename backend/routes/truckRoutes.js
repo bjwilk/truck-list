@@ -3,15 +3,15 @@ const cors = require('./cors');
 const authenticate = require('../authenticate');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
-
+const upload = require('../utils/multerConfig');
 
 const Truck = require("../models/truck");
 const truckRouter = express.Router();
 
 cloudinary.config({
-  cloud_name: 'YOUR_CLOUD_NAME',
-  api_key: 'YOUR_API_KEY',
-  api_secret: 'YOUR_API_SECRET'
+  cloud_name: process.env.CLOUDINARY_CLOUDNAME,
+  api_key: process.env.CLOUDINARY_API,
+  api_secret: process.env.CLOUDINARY_SECRET
 });
 
 
@@ -48,9 +48,15 @@ truckRouter
       })
       .catch((err) => next(err));
   })
-  .post(authenticate.authenticateToken, (req, res, next) => {
+  .post(authenticate.authenticateToken, upload.single("image"), async (req, res, next) => {
     req.body.userId = req.user.id;
     console.log(req.body)
+    console.log(req.file)
+    const imageResult = await cloudinary.uploader.upload(req.file.path)
+    console.log(imageResult)
+    req.body.url = imageResult.secure_url
+    req.body.image = req.file.originalname
+    // res.json({response: 'still testing'})
     Truck.create(req.body)
       .then((truck) => {
         console.log("Truck Created ", truck);

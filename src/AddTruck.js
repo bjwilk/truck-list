@@ -49,7 +49,7 @@ const InStock = ({ truckList, setTruckList }) => {
         <Wrapper key={index}>
           <div>
             <Image src={require(`../public/image/${truck.image}`)} />
-            
+
             <div>
               <P>${truck.cost}</P>
               <P>{truck.make}</P>
@@ -69,7 +69,7 @@ const AddTruck = () => {
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [body, setBody] = useState("");
   const [year, setYear] = useState(0);
   const [truckList, setTruckList] = useState([]);
@@ -84,25 +84,38 @@ const AddTruck = () => {
       image,
       year,
     };
+
+    const formData = new FormData()
+formData.append('cost', cost);
+formData.append('make', make.toUpperCase());
+formData.append('model', model.toUpperCase());
+formData.append("description", description)
+formData.append('image', image);
+formData.append('body', body.toLowerCase());
+formData.append('year', year);
+
+
     const response = await fetch("http://localhost:3001/truck", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "multipart/form-data",
         authorization: `Bearer ${localStorage.getItem("jsonwebtoken")}`,
       },
-      body: JSON.stringify(newTruck),
+      body: formData
     });
 
     if (response.ok) {
       const data = await response.json();
-      setTruckList([...truckList, data]);
+      console.log('data', data)
+      // setTruckList([...truckList, data]);
+      // setTruckList((prev) => [...truckList, data])
       setPrice("");
       setMake("");
       setModel("");
       setBody("");
       setYear(0);
       setDescription("");
-      setImage("");
+      setImage(null);
     } else {
       // Handle error response
       throw new Error("Failed to add truck");
@@ -171,12 +184,10 @@ const AddTruck = () => {
           <P>Image</P>
           <input
             type="file"
-            value={image}
             onChange={(e) => {
-              console.log(e.target.files[0])
-            //  setImage(e.target.files[0])
-            }
-            }
+              console.log(e.target.files[0]);
+               setImage(e.target.files[0])
+            }}
             placeholder="Enter Image URL"
           />
           {/* <select
