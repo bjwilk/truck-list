@@ -22,6 +22,16 @@ const Button = styled.button`
   padding: 5px;
   background: blue;
   color: white;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background: blue;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    background: darkblue;
+  }
 `;
 
 const P = styled.p`
@@ -43,8 +53,7 @@ const InStock = ({ truckList, setTruckList }) => {
   };
 
   return (
-    <InputWrapper>
-      <P>In Stock</P>
+    <>
       {truckList.map((truck, index) => (
         <Wrapper key={index}>
           <div>
@@ -60,7 +69,7 @@ const InStock = ({ truckList, setTruckList }) => {
           <button onClick={() => remove(index)}>Remove</button>
         </Wrapper>
       ))}
-    </InputWrapper>
+    </>
   );
 };
 
@@ -69,7 +78,7 @@ const AddTruck = () => {
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState([]);
   const [body, setBody] = useState("");
   const [year, setYear] = useState(0);
   const [truckList, setTruckList] = useState([]);
@@ -85,15 +94,20 @@ const AddTruck = () => {
       year,
     };
 
-    const formData = new FormData()
-formData.append('cost', cost);
-formData.append('make', make.toUpperCase());
-formData.append('model', model.toUpperCase());
-formData.append("description", description)
-formData.append('image', image);
-formData.append('body', body.toLowerCase());
-formData.append('year', year);
+    const formData = new FormData();
+    formData.append("cost", cost);
+    formData.append("make", make.toUpperCase());
+    formData.append("model", model.toUpperCase());
+    formData.append("description", description);
+    formData.append("body", body.toLowerCase());
+    formData.append("year", year);
 
+    // Append each image file individually
+    if (image) {
+      for (let i = 0; i < image.length; i++) {
+        formData.append("image", image[i]);
+      }
+    }
 
     const response = await fetch("http://localhost:3001/truck", {
       method: "POST",
@@ -101,12 +115,12 @@ formData.append('year', year);
         // "Content-Type": "multipart/form-data",
         authorization: `Bearer ${localStorage.getItem("jsonwebtoken")}`,
       },
-      body: formData
+      body: formData,
     });
 
     if (response.ok) {
       const data = await response.json();
-      console.log('data', data)
+      console.log("data", data);
       // setTruckList([...truckList, data]);
       // setTruckList((prev) => [...truckList, data])
       setPrice("");
@@ -115,8 +129,11 @@ formData.append('year', year);
       setBody("");
       setYear(0);
       setDescription("");
-      setImage(null);
+      setImage([]);
+      window.alert("Truck added successfully!");
     } else {
+      window.alert("Something went wrong");
+
       // Handle error response
       throw new Error("Failed to add truck");
     }
@@ -186,20 +203,10 @@ formData.append('year', year);
             type="file"
             onChange={(e) => {
               console.log(e.target.files[0]);
-               setImage(e.target.files[0])
+              setImage(e.target.files[0]);
             }}
             placeholder="Enter Image URL"
           />
-          {/* <select
-            onChange={(e) => setImage(e.target.value)}
-            value={image}
-            name="trucks"
-            id="trucks"
-          >
-            <option value="">Please Choose</option>
-            <option value="kenworth.jpg">Kenworth</option>
-            <option value="scania.jpg">Scania</option>
-          </select> */}
         </div>
       </InputWrapper>
       <Button onClick={handleAddTruck}>Add Truck</Button>

@@ -6,6 +6,7 @@ import TruckList from './TruckList'
 import styled from 'styled-components'
 import SignUp from "./SignUp";
 import Login from "./Login";
+import MyTrucks from "./MyTrucks";
 
 
 const Tabs = styled.button`
@@ -29,6 +30,10 @@ function App() {
     <div>
       <Container>
       <Tabs>
+        <Link to='/MyTrucks'>My Trucks</Link>
+          </Tabs>
+
+      <Tabs>
         <Link to='/'>Add Truck</Link>
           </Tabs>
           <Tabs>
@@ -43,6 +48,7 @@ function App() {
       </Container>
       <Routes>
         <Route exact path='/' element={<AddTruck />} />
+        <Route path='/MyTrucks' element={<MyTrucks />} />
         <Route path='/Contact' element={<Contact />} />
         <Route path='/TruckList' element={<TruckList />} />
         <Route path='/login' element={<Login />} />
