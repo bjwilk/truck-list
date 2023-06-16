@@ -103,11 +103,11 @@ const AddTruck = () => {
     formData.append("year", year);
 
     // Append each image file individually
-    if (image) {
-      for (let i = 0; i < image.length; i++) {
-        formData.append("image", image[i]);
-      }
-    }
+    // if (image) {
+    //   for (let i = 0; i < image.length; i++) {
+    //     formData.append("image", image[i]);
+    //   }
+    // }
 
     const response = await fetch("http://localhost:3001/truck", {
       method: "POST",

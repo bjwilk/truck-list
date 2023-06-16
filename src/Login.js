@@ -37,6 +37,8 @@ function Login() {
     if(result){
       localStorage.setItem("jsonwebtoken", result.jwt);
       navigate('/')
+    } else {
+      window.alert("Please sign up!")
     }
   };
 
