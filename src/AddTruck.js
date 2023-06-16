@@ -78,7 +78,7 @@ const AddTruck = () => {
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState("");
   const [body, setBody] = useState("");
   const [year, setYear] = useState(0);
   const [truckList, setTruckList] = useState([]);
@@ -101,7 +101,7 @@ const AddTruck = () => {
     formData.append("description", description);
     formData.append("body", body.toLowerCase());
     formData.append("year", year);
-
+    formData.append("image", image);
     // Append each image file individually
     // if (image) {
     //   for (let i = 0; i < image.length; i++) {
@@ -129,7 +129,7 @@ const AddTruck = () => {
       setBody("");
       setYear(0);
       setDescription("");
-      setImage([]);
+      setImage("");
       window.alert("Truck added successfully!");
     } else {
       window.alert("Something went wrong");
