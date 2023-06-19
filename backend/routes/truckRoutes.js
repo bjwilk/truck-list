@@ -4,8 +4,10 @@ const authenticate = require('../authenticate');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const upload = require('../utils/multerConfig');
+const fs = require("fs")
 
 const Truck = require("../models/truck");
+const User = require("../models/user")
 const truckRouter = express.Router();
 
 cloudinary.config({
@@ -13,6 +15,12 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API,
   api_secret: process.env.CLOUDINARY_SECRET
 });
+
+truckRouter.route("/userTrucks/:id")
+.get(authenticate.authenticateToken, (req, res) => {
+let id = req.user.id;
+Truck.find({userId: id})
+})
 
 
 truckRouter.route("/search").get((req, res) => {
@@ -57,6 +65,14 @@ truckRouter
     req.body.url = imageResult.secure_url
     req.body.image = req.file.originalname
     // res.json({response: 'still testing'})
+    const temporaryFilePath = req.file.path;
+        fs.unlink(temporaryFilePath, (err) => {
+            if (err) {
+                console.error('Error removing file:', err);
+            } else {
+                console.log('File removed successfully');
+            }
+        });
     Truck.create(req.body)
       .then((truck) => {
         console.log("Truck Created ", truck);

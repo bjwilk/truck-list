@@ -1,67 +1,80 @@
 import React from "react";
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
-import AddTruck from './AddTruck';
-import Contact from './Contact';
-import TruckList from './TruckList'
-import styled from 'styled-components'
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Link,
+  useNavigate,
+} from "react-router-dom";
+import AddTruck from "./AddTruck";
+import Contact from "./Contact";
+import TruckList from "./TruckList";
+import styled from "styled-components";
 import SignUp from "./SignUp";
 import Login from "./Login";
 import MyTrucks from "./MyTrucks";
 
-
 const Tabs = styled.button`
-border: solid black 5px;
-margin: 10px;
-padding: 10px;
-`
+  border: solid black 5px;
+  margin: 10px;
+  padding: 10px;
+`;
 
 const Container = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-border: solid;
-background: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: solid;
+  background: black;
 `;
 
 function App() {
+  const handleLogout = () => {
+    fetch("http://localhost:3001/users/logout").then(() => {
+      localStorage.removeItem("jsonwebtoken");
+      window.alert('Logged out')
+    });
+  };
+
   return (
     <BrowserRouter>
-    <div>
-      <Container>
-      <Tabs>
-        <Link to='/MyTrucks'>My Trucks</Link>
+      <div>
+        <Container>
+          <Tabs>
+            <Link to="/MyTrucks">My Trucks</Link>
           </Tabs>
 
-      <Tabs>
-        <Link to='/'>Add Truck</Link>
+          <Tabs>
+            <Link to="/AddTruck">Add Truck</Link>
+          </Tabs>
+
+          <Tabs>
+            <Link to="/Contact">Contact</Link>
           </Tabs>
           <Tabs>
-           <Link to='/Contact'>Contact</Link>
+            <Link to="/">Find Truck</Link>
           </Tabs>
+
           <Tabs>
-           <Link to='/TruckList'>Find Truck</Link>
+            <Link to="/login">Login</Link>
           </Tabs>
+
           <Tabs>
-           <Link to='/login'>Login</Link>
+            <button onClick={handleLogout}>Logout</button>
           </Tabs>
-      </Container>
-      <Routes>
-        <Route exact path='/' element={<AddTruck />} />
-        <Route path='/MyTrucks' element={<MyTrucks />} />
-        <Route path='/Contact' element={<Contact />} />
-        <Route path='/TruckList' element={<TruckList />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/SignUp' element={<SignUp />} />
-
-
-
-      </Routes>
-    </div>
-  </BrowserRouter>
+        </Container>
+        <Routes>
+          <Route exact path="/" element={<TruckList />} />
+          <Route path="/AddTruck" element={<AddTruck />} />
+          <Route path="/MyTrucks" element={<MyTrucks />} />
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/SignUp" element={<SignUp />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
-
 export default App;
-

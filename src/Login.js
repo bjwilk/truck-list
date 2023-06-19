@@ -36,6 +36,7 @@ function Login() {
     console.log(result);
     if(result){
       localStorage.setItem("jsonwebtoken", result.jwt);
+      window.alert('Successful login!')
       navigate('/')
     } else {
       window.alert("Please sign up!")

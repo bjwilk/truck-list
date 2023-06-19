@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CloudinaryContext, Image } from "cloudinary-react";
 
 
@@ -12,32 +12,78 @@ export default function TruckList() {
     body: "",
   });
 
-  const [searchResults, setSesarchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
   const [searchClicked, setSearchClicked] = useState(false);
 
+  useEffect(() => {
+    fetch('http://localhost:3001/truck')
+    .then((response) => {
+      return response.json()
+    })
+    .then((results) => {
+     console.log(results)
+     setSearchResults(results)
+    })
+  
+  }, [])
+  
+
   const handleInputChange = (e) => {
+    console.log(e.target.value)
     setSearchValues((prevValues) => ({
       ...prevValues,
       [e.target.name]: e.target.value,
-    }));
+  }));
   };
 
-  const handleSearchClick = async () => {
-    const results = fetch(
-      `http://localhost:3001/truck/search?make=${searchValues.make}&model=${searchValues.model}&body=${searchValues.body}`
-    );
-    let trucks = await (await results).json();
-    setSesarchResults(trucks);
-    console.log("results: ", trucks);
-    setSearchClicked(true);
+  const handleSearchClick = () => {
+    let theMake = [];
+    let theModel = [];
+    let theBody = [];
+    console.log("searchValues", searchValues)
+    console.log("searchResults", searchResults)
+    if(searchValues.make) {
+      theMake = searchResults.filter((item) => {
+   
+        return searchValues.make.toUpperCase() == item.make.toUpperCase() 
+      
+      });
+      console.log(theMake)
+    }
+    console.log(theMake)
+    if(searchValues.model) {
+      theModel = searchResults.filter((item) => {
+   
+        return searchValues.model.toUpperCase() == item.model.toUpperCase() 
+      
+      });
+      console.log(theModel)
+    }
+    if(searchValues.body) {
+      theBody = searchResults.filter((item) => {
+   
+        return searchValues.body.toUpperCase() == item.body.toUpperCase() 
+      
+      });
+    };
+
+    // let results = []
+    // if (theMake.model === theModel.model) {
+    //   results = [...theMake]
+    //   setSearchResults(results)
+    //   if (theBody.model === theMake.model) {
+    //     setSearchResults(results)
+    //   }
+    // }
+    const results = [...theMake, ...theModel, ...theBody];
+   setSearchResults(results)
   };
 
   
 
   return (
     <>
-     <CloudinaryContext cloudName="dlyvr1lwa">
       <div style={{ border: "solid black" }}>
         <h2>Search Truck List</h2>
         <h4>
@@ -95,17 +141,17 @@ export default function TruckList() {
   searchResults.map((item, index) => (
     <div key={item._id}>
       <p>
-        {item.make} {item.model} {item.year} {item.body}
+        {item.make} {item.model} {item.year} {item.body} {item.description}
+        <img style={{width: '50%' }} src={item.url} alt={item.image}/>
       </p>
-      <Image
+      {/* <Image
         cloudName="dlyvr1lwa"
         publicId={item.image}
         alt="Truck Image"
-      />
+      /> */}
     </div>
   ))}
       </div>
-      </CloudinaryContext>
     </>
   );
 }
