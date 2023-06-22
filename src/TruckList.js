@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CloudinaryContext, Image } from "cloudinary-react";
 
-
-
 export default function TruckList() {
   const [searchValues, setSearchValues] = useState({
     make: "",
@@ -10,6 +8,7 @@ export default function TruckList() {
     startYear: "",
     endYear: "",
     body: "",
+    cost: "",
   });
 
   const [searchResults, setSearchResults] = useState([]);
@@ -17,70 +16,74 @@ export default function TruckList() {
   const [searchClicked, setSearchClicked] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:3001/truck')
-    .then((response) => {
-      return response.json()
-    })
-    .then((results) => {
-     console.log(results)
-     setSearchResults(results)
-    })
-  
-  }, [])
-  
+    fetch("http://localhost:3001/truck")
+      .then((response) => {
+        return response.json();
+      })
+      .then((results) => {
+        console.log(results);
+        setSearchResults(results);
+      });
+  }, []);
 
   const handleInputChange = (e) => {
-    console.log(e.target.value)
+    console.log(e.target.value);
     setSearchValues((prevValues) => ({
       ...prevValues,
       [e.target.name]: e.target.value,
-  }));
+    }));
   };
 
   const handleSearchClick = () => {
     let theMake = [];
     let theModel = [];
     let theBody = [];
-    console.log("searchValues", searchValues)
-    console.log("searchResults", searchResults)
-    if(searchValues.make) {
-      theMake = searchResults.filter((item) => {
-   
-        return searchValues.make.toUpperCase() == item.make.toUpperCase() 
-      
-      });
-      console.log(theMake)
-    }
-    console.log(theMake)
-    if(searchValues.model) {
-      theModel = searchResults.filter((item) => {
-   
-        return searchValues.model.toUpperCase() == item.model.toUpperCase() 
-      
-      });
-      console.log(theModel)
-    }
-    if(searchValues.body) {
-      theBody = searchResults.filter((item) => {
-   
-        return searchValues.body.toUpperCase() == item.body.toUpperCase() 
-      
-      });
-    };
+    let theYear = [];
+    let theCost = [];
 
-    // let results = []
-    // if (theMake.model === theModel.model) {
-    //   results = [...theMake]
-    //   setSearchResults(results)
-    //   if (theBody.model === theMake.model) {
-    //     setSearchResults(results)
-    //   }
-    // }
-    const results = [...theMake, ...theModel, ...theBody];
-   setSearchResults(results)
+    if (searchValues.make) {
+      theMake = searchResults.filter(
+        (item) => item.make.toUpperCase() === searchValues.make.toUpperCase()
+      );
+    }
+
+    if (searchValues.model) {
+      theModel = searchResults.filter(
+        (item) => item.model.toUpperCase() === searchValues.model.toUpperCase()
+      );
+    }
+
+    if (searchValues.body) {
+      theBody = searchResults.filter(
+        (item) => item.body.toUpperCase() === searchValues.body.toUpperCase()
+      );
+    }
+
+    if (searchValues.startYear && searchValues.endYear) {
+      theYear = searchResults.filter(
+        (item) =>
+          item.year >= parseInt(searchValues.startYear) &&
+          item.year <= parseInt(searchValues.endYear)
+      );
+    }
+
+    if (searchValues.startCost && searchValues.endCost) {
+      theCost = searchResults.filter(
+        (item) =>
+          item.cost >= parseInt(searchValues.startCost) &&
+          item.cost <= parseInt(searchValues.endCost)
+      );
+    }
+
+    const results = [
+      ...theMake,
+      ...theModel,
+      ...theBody,
+      ...theYear,
+      ...theCost,
+    ];
+    setSearchResults(results);
   };
-
-  
 
   return (
     <>
@@ -121,6 +124,23 @@ export default function TruckList() {
           />
         </h4>
         <h4>
+          Price Range
+          <input
+            type="number"
+            name="startCost"
+            value={searchValues.startCost}
+            onChange={handleInputChange}
+          />{" "}
+          -{" "}
+          <input
+            type="number"
+            name="endCost"
+            value={searchValues.endCost}
+            onChange={handleInputChange}
+          />
+        </h4>
+
+        <h4>
           Body
           <input
             type="text"
@@ -137,20 +157,16 @@ export default function TruckList() {
             <p>{item.make} {item.model} {item.year} {item.body}</p>
           </div>
         ))} */}
-{searchResults.length > 0 &&
-  searchResults.map((item, index) => (
-    <div key={item._id}>
-      <p>
-        {item.make} {item.model} {item.year} {item.body} {item.description}
-        <img style={{width: '50%' }} src={item.url} alt={item.image}/>
-      </p>
-      {/* <Image
-        cloudName="dlyvr1lwa"
-        publicId={item.image}
-        alt="Truck Image"
-      /> */}
-    </div>
-  ))}
+        {searchResults.length > 0 &&
+          searchResults.map((item, index) => (
+            <div key={item._id}>
+              <p>
+                {item.make} {item.model} {item.year} {item.cost} {item.body}{" "}
+                {item.description}
+                <img style={{ width: "50%" }} src={item.url} alt={item.image} />
+              </p>
+            </div>
+          ))}
       </div>
     </>
   );

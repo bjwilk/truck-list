@@ -51,6 +51,15 @@ function Login() {
     }
   };
 
+  if (localStorage.getItem("jsonwebtoken")) {
+    return (
+      <div>
+        <h1>You are already logged in!</h1>
+        <Link to="/">Home</Link>
+      </div>
+    );
+  }
+
   return (
     <div>
       <LogBox>

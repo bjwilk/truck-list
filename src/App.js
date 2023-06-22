@@ -33,7 +33,8 @@ function App() {
   const handleLogout = () => {
     fetch("http://localhost:3001/users/logout").then(() => {
       localStorage.removeItem("jsonwebtoken");
-      window.alert('Logged out')
+      window.alert('Logged out');
+      window.location.reload();
     });
   };
 
