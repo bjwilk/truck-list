@@ -1,8 +1,9 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {
   BrowserRouter,
   Route,
   Routes,
+  Router,
   Link,
   useNavigate,
 } from "react-router-dom";
@@ -33,7 +34,7 @@ function App() {
   const handleLogout = () => {
     fetch("http://localhost:3001/users/logout").then(() => {
       localStorage.removeItem("jsonwebtoken");
-      window.alert('Logged out');
+      window.alert("Logged out");
       window.location.reload();
     });
   };
@@ -65,14 +66,17 @@ function App() {
             <button onClick={handleLogout}>Logout</button>
           </Tabs>
         </Container>
+        <Fragment>
         <Routes>
-          <Route exact path="/" element={<TruckList />} />
-          <Route path="/AddTruck" element={<AddTruck />} />
-          <Route path="/MyTrucks" element={<MyTrucks />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/SignUp" element={<SignUp />} />
+            <Route exact path="/" element={<TruckList />} />
+            <Route path="/AddTruck" element={<AddTruck />} />
+            <Route path="/MyTrucks" element={<MyTrucks />} />
+            <Route path="/Contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/SignUp" element={<SignUp />} />
+          
         </Routes>
+        </Fragment>
       </div>
     </BrowserRouter>
   );

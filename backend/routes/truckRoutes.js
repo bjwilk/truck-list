@@ -16,12 +16,16 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET
 });
 
-truckRouter.route("/userTrucks/:id")
-.get(authenticate.authenticateToken, (req, res) => {
-let id = req.user.id;
-Truck.find({userId: id})
-})
-
+truckRouter.route('/userTrucks/:id').get(authenticate.authenticateToken, (req, res) => {
+  let id = req.user.id;
+  Truck.find({ userId: id })
+    .then((trucks) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.json(trucks);
+    })
+    .catch((err) => next(err));
+});
 
 truckRouter.route("/search").get((req, res) => {
     const {make, model, body} = req.query;
