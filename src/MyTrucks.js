@@ -13,17 +13,9 @@ const MyTrucks = () => {
   }, []);
   const fetchUserTrucks = async () => {
     try {
-      const response = await fetch('http://localhost:3001/users/me', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jsonwebtoken')}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Error fetching user data: ' + response.statusText);
-      }
-      const user = await response.json();
+     
   
-      const userTrucksResponse = await fetch(`http://localhost:3001/userTrucks/${user._id}`, {
+      const userTrucksResponse = await fetch(`http://localhost:3001/truck/userTrucks`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jsonwebtoken')}`,
         },

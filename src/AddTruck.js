@@ -78,7 +78,7 @@ const AddTruck = () => {
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState([]);
   const [body, setBody] = useState("");
   const [year, setYear] = useState(0);
   const [truckList, setTruckList] = useState([]);
@@ -101,13 +101,14 @@ const AddTruck = () => {
     formData.append("description", description);
     formData.append("body", body.toLowerCase());
     formData.append("year", year);
-    formData.append("image", image);
+    // formData.append("image", image);
     // Append each image file individually
-    // if (image) {
-    //   for (let i = 0; i < image.length; i++) {
-    //     formData.append("image", image[i]);
-    //   }
-    // }
+    if (image) {
+      for (let i = 0; i < image.length; i++) {
+        formData.append("image", image[i]);
+      }
+    }
+    formData.append("image", image);
 
     const response = await fetch("http://localhost:3001/truck", {
       method: "POST",
@@ -138,6 +139,10 @@ const AddTruck = () => {
       throw new Error("Failed to add truck");
     }
   };
+
+  const handleFile = (e) => {
+     setImage(e.target.files)
+  }
 
   return (
     <>
@@ -201,10 +206,8 @@ const AddTruck = () => {
           <P>Image</P>
           <input
             type="file"
-            onChange={(e) => {
-              console.log(e.target.files[0]);
-              setImage(e.target.files[0]);
-            }}
+            multiple
+            onChange={handleFile}
             placeholder="Enter Image URL"
           />
         </div>
