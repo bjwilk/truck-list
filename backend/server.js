@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 res.send('hello trucks')
 })
 
-app.listen(PORT, async () => {
+app.listen(process.env.PORT || PORT, async () => {
     await connectDB();
     console.log(`server is running at ${PORT}`)
   })
