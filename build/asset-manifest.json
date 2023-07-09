@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/static/js/main.e7ddaa2b.js",
+    "static/media/scania.jpg": "/static/media/scania.8e0a284f7c3a472e4666.jpg",
+    "static/media/kenworth.jpg": "/static/media/kenworth.002a43f48aff7a903b78.jpg",
+    "index.html": "/index.html",
+    "main.e7ddaa2b.js.map": "/static/js/main.e7ddaa2b.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.e7ddaa2b.js"
+  ]
+}
