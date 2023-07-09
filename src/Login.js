@@ -24,7 +24,7 @@ function Login() {
       username: userName,
       password: password,
     };
-    const response = await fetch("users/login", {
+    const response = await fetch("/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

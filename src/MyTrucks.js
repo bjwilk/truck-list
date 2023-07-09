@@ -15,7 +15,7 @@ const MyTrucks = () => {
     try {
      
   
-      const userTrucksResponse = await fetch(`http://localhost:3001/truck/userTrucks`, {
+      const userTrucksResponse = await fetch(`/truck/userTrucks`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jsonwebtoken')}`,
         },
