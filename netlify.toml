@@ -1,4 +1,4 @@
 # netlify.toml
 [build]
-  command = "npm run build"  # Replace with your backend build command
+  command = "npm run build && node backend/server.js"  # Replace with your backend build command
   functions = "backend/"  # Path to the backend build output directory
