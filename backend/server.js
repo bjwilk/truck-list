@@ -4,7 +4,7 @@ const truckRouter = require('./routes/truckRoutes')
 const connectDB = require('./mongoConnection')
 const uploadRouter = require('./routes/uploadRouter');
 const userRoute = require('./routes/users')
-const PORT = 3001
+// const PORT = 3001
 const app = express()
 const path = require('path')
 

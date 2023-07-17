@@ -16,7 +16,7 @@ export default function TruckList() {
   const [searchClicked, setSearchClicked] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3001/truck")
+    fetch("/truck")
       .then((response) => {
         return response.json();
       })

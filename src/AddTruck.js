@@ -110,7 +110,7 @@ const AddTruck = () => {
     }
     formData.append("image", image);
 
-    const response = await fetch("http://localhost:3001/truck", {
+    const response = await fetch("/truck", {
       method: "POST",
       headers: {
         // "Content-Type": "multipart/form-data",
