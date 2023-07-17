@@ -34,7 +34,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "start:production": "node backend/server.js",
-    "heroku-prebuild": "npm install && npm run build"
+    "heroku-prebuild": "npm install"
   },
   "devDependencies": {
     "react-scripts": "latest"
