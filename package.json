@@ -2,6 +2,9 @@
   "name": "react",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "18.16.1"
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.37.0",
@@ -29,7 +32,9 @@
     "start": "npm run build && node backend/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:production": "node backend/server.js",
+    "heroku-prebuild": "npm install && npm run build"
   },
   "devDependencies": {
     "react-scripts": "latest"
